@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "git-super-search": {
+      "hosting": {
+        "git-super-search": [
+          "git-super-search"
+        ]
+      }
+    }
+  }
+}

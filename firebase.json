@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "git-super-search",
+      "public": "dist/git-super-search",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

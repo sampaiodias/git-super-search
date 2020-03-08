@@ -123,6 +123,10 @@
               "devServerTarget": "git-super-search:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }
