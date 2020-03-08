@@ -3,7 +3,8 @@ import {
   OnInit,
   ViewChild,
   AfterViewInit,
-  Input
+  Input,
+  EventEmitter
 } from '@angular/core';
 import { GithubService } from '../shared/github/github.service';
 import { Repository } from '../shared/github/models/repository';
@@ -20,8 +21,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent implements AfterViewInit {
-  @Input()
-  query: string = 'unity';
+  query: string = 'angular';
 
   results: Array<Repository>;
   displayedColumns: string[] = [
@@ -36,6 +36,7 @@ export class SearchResultsComponent implements AfterViewInit {
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
+  private _searchEmitter: EventEmitter<string> = new EventEmitter();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -45,7 +46,7 @@ export class SearchResultsComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
-    merge(this.sort.sortChange, this.paginator.page)
+    merge(this.sort.sortChange, this.paginator.page, this._searchEmitter)
       .pipe(
         startWith({}),
         switchMap(() => {
@@ -73,5 +74,10 @@ export class SearchResultsComponent implements AfterViewInit {
       .subscribe((data: Array<Repository>) => {
         this.dataSource.data = data;
       });
+  }
+
+  search(query: string) {
+    this.query = query;
+    this._searchEmitter.emit(query);
   }
 }

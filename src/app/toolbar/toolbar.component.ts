@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-toolbar',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
+  private query = '';
+  searchForm = new FormControl('');
 
-  constructor() { }
+  @Output() search = new EventEmitter<string>();
 
-  ngOnInit(): void {
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  startSearch() {
+    this.query = this.searchForm.value;
+    this.search.emit(this.query);
   }
-
 }
